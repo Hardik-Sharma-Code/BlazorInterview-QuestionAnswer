@@ -32,8 +32,7 @@ Certainly! Here are the answers to the .NET Blazor interview questions from basi
 
 **What is the role of the Main method in a Blazor application?**
 
-- The Main method is the entry point for a Blazor WebAssembly application.
-- It initializes the application and renders the root component.
+- In a Blazor server project, the Main() method calls the CreateHostBuilder() method which sets up the ASP.NET Core host. In a Blazor WebAssembly project, the App component, which is the root component of the application, is specified in the Main method. This root component is present in the root project folder in the App.
 
 **How does Blazor support data binding?**
 

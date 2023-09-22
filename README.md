@@ -1,6 +1,7 @@
 
 ## Blazor Interview Questions & Answers
 
+| Click ⭐if you like the project and follow @Hardikshrm7 for technical updates.
 
 Certainly! Here are the answers to the .NET Blazor interview questions from basic to advanced:**
 

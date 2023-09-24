@@ -1,0 +1,23 @@
+﻿@using BlazorCRUD.Shared;
+
+<EditForm Model="@cat" OnValidSubmit="@OnValidSubmit">
+    <div class="form-group">
+        <label>Category Name :</label>
+        <div>
+            <InputText @bind-Value="@cat.CategoryName" class="form-control col-md-4" />
+        </div>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+
+</EditForm>
+
+
+@code {
+    [Parameter] public Category cat { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}
+

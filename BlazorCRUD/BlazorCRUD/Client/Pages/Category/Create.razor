@@ -1,0 +1,29 @@
+﻿@page "/create";
+
+@using BlazorCRUD.Shared;
+@inject HttpClient http;
+@inject NavigationManager uriHelper;
+
+<h3>Create Category</h3>
+
+<CategoryForm OnValidSubmit="@CreateCategory" cat="@category" />
+
+
+@code {
+    Category category = new Category();
+
+    async Task CreateCategory()
+    {
+        var createCategory = new Category
+            {
+                CategoryId = Guid.NewGuid().ToString(),
+                CategoryName = category.CategoryName,
+                CategoryPicture = string.Empty
+            };
+
+
+        await http.PostAsJsonAsync("api/Category/addCategory", createCategory);
+        uriHelper.NavigateTo("Category");
+    }
+
+}

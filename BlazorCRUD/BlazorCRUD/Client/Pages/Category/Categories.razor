@@ -1,0 +1,53 @@
+﻿@page "/Category"
+@using BlazorCRUD.Shared;
+@inject HttpClient client;
+
+<h3>Categories</h3>
+
+<div class="form-group">
+    <a class="btn btn-success" href="/create"><i class="oi oi-plus"></i> Create New</a>
+</div>
+<br>
+
+@if (categoriesList == null)
+{
+    <text>Loading...</text>
+}
+else if (categoriesList.Count() == 0)
+{
+    <text>No Records Found.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Category Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Category cat in categoriesList)
+            {
+                <tr>
+                    <td>@cat.CategoryId</td>
+                    <td>@cat.CategoryName</td>
+                    <td>
+                        <a class="btn btn-success" href=@($"/category/edit/{@cat.CategoryId}")>Edit</a>
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Category> categoriesList = new List<Category>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        categoriesList = await client.GetFromJsonAsync<List<Category>>("api/Category/getCategories");
+    }
+}

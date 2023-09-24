@@ -1,0 +1,34 @@
+﻿@page "/category/edit/{CategoryId}"
+
+
+@using BlazorCRUD.Shared;
+@inject HttpClient http;
+@inject NavigationManager uriHelper;
+
+<h3>Update</h3>
+
+<CategoryForm OnValidSubmit="@UpdateCategory" cat="@category" />
+
+@code {
+    Category category = new Category();
+
+    [Parameter]
+    public string CategoryId  { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        category = await http.GetFromJsonAsync<Category>($"api/Category/getByID/{CategoryId}");
+    }
+    async Task UpdateCategory()
+    {
+        var updateCategory = new Category
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName,
+                CategoryPicture = category.CategoryPicture
+            };
+
+        await http.PutAsJsonAsync($"api/Category/updateCategory/{CategoryId}", updateCategory);
+        uriHelper.NavigateTo("Category");
+    }
+}

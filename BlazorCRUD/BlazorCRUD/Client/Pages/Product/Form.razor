@@ -1,0 +1,89 @@
+﻿@using BlazorCRUD.Shared;
+@inject HttpClient http;
+
+
+<EditForm Model="@product" OnValidSubmit="@OnValidSubmit">
+    <div class="form-group">
+        <label>Product Code :</label>
+        <div>
+            <InputText @bind-Value="@product.ProductCode" class="form-control col-md-4" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label>Product Name:</label>
+        <div>
+            <InputText @bind-Value="@product.ProductName" class="form-control col-md-4" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label>Price :</label>
+        <div>
+            <InputNumber @bind-Value="@product.Price" class="form-control col-md-4" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label>Quantity:</label>
+        <div>
+            <InputNumber @bind-Value="@product.Qty" class="form-control col-md-4" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label> Description :</label>
+        <div>
+            <InputText @bind-Value="@product.Description" class="form-control col-md-4" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label>Category:</label>
+        @if (categoriesList == null)
+        {
+            <p>Loading...</p>
+        }
+        else
+        {
+            <div>
+                <InputSelect @bind-Value="@SelectedValue" class="form-control col-md-4" @onchange="@OnValueChange">
+                    <option value="-1" disabled="disabled">--Selected--</option>
+                    @foreach (var category in categoriesList)
+                    {
+                        <option value="@category.CategoryId">@category.CategoryName</option>
+                    }
+                </InputSelect>
+            </div>
+        }
+      
+    </div>
+    <br />
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+
+</EditForm>
+
+
+@code {
+
+    [Parameter] public Products product { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+    [Parameter] public int? SelectedValue { get; set; }
+
+    public List<Category> categoriesList { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        categoriesList = await http.GetFromJsonAsync<List<Category>>("api/Category/getCategories");
+    }
+
+    private Task OnValueChange(ChangeEventArgs e)
+    {
+        Value = e.Value.ToString();
+        TextLength = Value.Length;
+        return ValueChanged.InvokeAsync(Value);
+    }
+}

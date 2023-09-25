@@ -1,0 +1,33 @@
+﻿@page "/product/create"
+
+@using BlazorCRUD.Shared;
+@inject HttpClient http;
+@inject NavigationManager uriHelper;
+
+<h3>Create</h3>
+
+<Form OnValidSubmit="@CreateProduct" SelectedValue="@SelectedValue" product="@products"></Form>
+
+@code {
+    Products products = new Products();
+    List<Category> categoriesList = new List<Category>();
+
+    public int? SelectedValue  = -1;
+
+    async Task CreateProduct()
+    {
+        var newProduct = new Products
+            {
+                Id = Guid.NewGuid().ToString(),
+                ProductCode = products.ProductCode,
+                ProductName = products.ProductName,
+                Price = products.Price,
+                Qty = products.Qty,
+                Description = products.Description,
+                CategoryId = products.CategoryId
+            };
+
+        await http.PostAsJsonAsync("api/Products/addProduct", newProduct);
+        uriHelper.NavigateTo("productList");
+    }
+}

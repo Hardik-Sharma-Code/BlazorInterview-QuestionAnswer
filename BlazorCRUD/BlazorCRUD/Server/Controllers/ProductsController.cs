@@ -21,7 +21,7 @@ namespace BlazorCRUD.Server.Controllers
         [Route("getProducts")]
         public async Task<IActionResult> Get()
         {
-            var productList = _productServices.GetProducts();
+            var productList = await _productServices.GetProducts();
             return Ok(productList);
         }
 

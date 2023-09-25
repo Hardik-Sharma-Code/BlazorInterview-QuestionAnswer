@@ -1,0 +1,61 @@
+﻿@page "/productList"
+
+@using BlazorCRUD.Shared;
+@inject HttpClient http;
+
+<h1> Products</h1>
+
+<div class="form-group">
+    <a class="btn btn-success" href="/product/create"><i class="oi oi-plus"></i> Create New</a>
+</div>
+<br>
+
+@if (productsList == null)
+{
+    <text>Loading...</text>
+}
+else if (productsList.Count() == 0)
+{
+    <text>No Records Found.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Product Code</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Category</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Products product in productsList)
+            {
+                <tr>
+                    <td>@product.ProductCode</td>
+                    <td>@product.ProductName</td>
+                    <td>@product.Price</td>
+                    <td>@product.Qty</td>
+                    <td>@product.CategoryId</td>
+                    <td>
+                        @*<a class="btn btn-success" href=@($"/category/edit/{product.Id}")>Edit</a>*@
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Products> productsList = new List<Products>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        productsList = await http.GetFromJsonAsync<List<Products>>("api/Products/getProducts");
+    }
+}

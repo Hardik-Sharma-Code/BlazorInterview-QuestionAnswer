@@ -14,6 +14,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(Options => Options.UseSqlSer
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                .AddEntityFrameworkStores<ApplicationDBContext>();
 builder.Services.AddScoped<ICategoryServices, CategoryServices>();
+builder.Services.AddScoped<IProductServices, ProductServices>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

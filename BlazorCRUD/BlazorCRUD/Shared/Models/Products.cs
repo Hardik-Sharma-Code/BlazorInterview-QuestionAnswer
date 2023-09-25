@@ -16,8 +16,8 @@ namespace BlazorCRUD.Shared
         public string Id { get; set; }
         public string ProductCode { get; set; }
         public string ProductName { get; set; }
-        public string Price { get; set; }
-        public string Qty { get; set; }
+        public int? Price { get; set; }
+        public int? Qty { get; set; }
         public string Description { get; set; }
 
         [ForeignKey("CategoryId")]

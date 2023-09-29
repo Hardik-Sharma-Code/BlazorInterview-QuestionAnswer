@@ -37,17 +37,16 @@ namespace BlazorCRUD.Server.Controllers
         // POST api/<ProductsController>
         [HttpPost]
         [Route("addProduct")]
-        public async Task<IActionResult> Post([FromBody] Products products)
+        public async Task<IActionResult> Post([FromBody] ProductDTO products)
         {
             var newProduct = await _productServices.CreateAsync(products);
             return Ok(newProduct);
-
         }
 
         // PUT api/<ProductsController>/5
         [HttpPut("{id}")]
         [Route("updateProduct/{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Products products)
+        public async Task<IActionResult> Put(int id, [FromBody] ProductDTO products)
         {
             var updateProduct = await _productServices.CreateAsync(products);
             return Ok(updateProduct);

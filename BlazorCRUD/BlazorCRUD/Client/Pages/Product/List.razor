@@ -23,7 +23,6 @@ else
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Product Code</th>
                 <th>Product Name</th>
                 <th>Price</th>
@@ -33,7 +32,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (Products product in productsList)
+            @foreach (ProductDTO product in productsList)
             {
                 <tr>
                     <td>@product.ProductCode</td>
@@ -52,10 +51,10 @@ else
 }
 
 @code {
-    List<Products> productsList = new List<Products>();
+    List<ProductDTO> productsList = new List<ProductDTO>();
 
     protected override async Task OnInitializedAsync()
     {
-        productsList = await http.GetFromJsonAsync<List<Products>>("api/Products/getProducts");
+        productsList = await http.GetFromJsonAsync<List<ProductDTO>>("api/Products/getProducts");
     }
 }

@@ -9,22 +9,21 @@
 <Form OnValidSubmit="@CreateProduct" SelectedValue="@SelectedValue" product="@products"></Form>
 
 @code {
-    Products products = new Products();
+    ProductDTO products = new ProductDTO();
     List<Category> categoriesList = new List<Category>();
 
-    public int? SelectedValue  = -1;
+    public string SelectedValue = "select";
 
     async Task CreateProduct()
     {
-        var newProduct = new Products
+        var newProduct = new ProductDTO
             {
-                Id = Guid.NewGuid().ToString(),
                 ProductCode = products.ProductCode,
                 ProductName = products.ProductName,
                 Price = products.Price,
                 Qty = products.Qty,
                 Description = products.Description,
-                CategoryId = products.CategoryId
+                CategoryId = products.CategoryId,
             };
 
         await http.PostAsJsonAsync("api/Products/addProduct", newProduct);

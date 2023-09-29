@@ -42,21 +42,23 @@
         <label>Category:</label>
         @if (categoriesList == null)
         {
-            <p>Loading...</p>
+            <p><em>Loading</em></p>
         }
         else
         {
             <div>
-                <InputSelect @bind-Value="@SelectedValue" class="form-control col-md-4" @onchange="@OnValueChange">
-                    <option value="-1" disabled="disabled">--Selected--</option>
+                <select class="form-control col-md-4" @bind="SelectedValue" @bind:after="categoryClick" @bind:event="onchange">
+
+                    <option value="select" disabled="disabled">--Selected--</option>
                     @foreach (var category in categoriesList)
                     {
-                        <option value="@category.CategoryId">@category.CategoryName</option>
+                        SelectedValue = category.CategoryId;
+                        <option value="@category.CategoryId" >@category.CategoryName</option>
                     }
-                </InputSelect>
+                </select>
             </div>
         }
-      
+
     </div>
     <br />
     <button type="submit" class="btn btn-success">
@@ -68,10 +70,11 @@
 
 @code {
 
-    [Parameter] public Products product { get; set; }
+    [Parameter] public ProductDTO product { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public string SelectedValue { get; set; }
     [Parameter] public EventCallback OnValidSubmit { get; set; }
-    [Parameter] public int? SelectedValue { get; set; }
+
 
     public List<Category> categoriesList { get; set; }
 
@@ -80,10 +83,9 @@
         categoriesList = await http.GetFromJsonAsync<List<Category>>("api/Category/getCategories");
     }
 
-    private Task OnValueChange(ChangeEventArgs e)
+    private void categoryClick()
     {
-        Value = e.Value.ToString();
-        TextLength = Value.Length;
-        return ValueChanged.InvokeAsync(Value);
+        product.CategoryId = SelectedValue;
+        Console.WriteLine(product.CategoryId);
     }
 }
